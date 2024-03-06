@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS invoices(
 	BillingCountry VARCHAR,
 	BillingPostalCode VARCHAR,
 	Total real,
-	PRIMARY KEY(InvoiceId)
+	PRIMARY KEY(InvoiceId)   
 );
 
 DROP TABLE invoices;
