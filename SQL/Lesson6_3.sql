@@ -11,7 +11,8 @@ FROM payment
 GROUP BY customer_id
 ORDER BY 總和 DESC;
 
-/*聚合兩標單欄位名稱相同(payment.customer_id = customer.customer_id)*/
+/*聚合兩標單欄位名稱相同(payment.customer_id = customer.customer_id)
+|| ' ' || 使用*/
 SELECT first_name|| ' ' || last_name AS full_name,
 	SUM(amount) AS 總和
 FROM payment LEFT JOIN customer ON payment.customer_id = customer.customer_id
@@ -24,6 +25,14 @@ SELECT first_name|| ' ' || last_name AS full_name,
 	SUM(amount) AS 總和
 FROM payment LEFT JOIN customer USING(customer_id)
 GROUP BY full_name
+ORDER BY 總和 DESC;
+
+/*HAVING指過濾,若使用HAVING則後面使用的聚合函式(如:SUM(amount))*/
+SELECT first_name|| ' ' || last_name AS full_name,
+	SUM(amount) AS 總和
+FROM payment LEFT JOIN customer USING(customer_id)
+GROUP BY full_name
+HAVING SUM(amount) >= 200
 ORDER BY 總和 DESC;
 
 
