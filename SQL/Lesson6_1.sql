@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS gate_count;
 DROP TABLE IF EXISTS stations;
 
 CREATE TABLE IF NOT EXISTS stations(
@@ -13,7 +14,24 @@ CREATE TABLE IF NOT EXISTS stations(
 	youbike BOOL
 );
 
+CREATE TABLE IF NOT EXISTS gate_count(
+	id SERIAL,
+	日期 DATE NOT NULL,
+	站點編號 INT,
+	進站人數 INT DEFAULT 0,
+	出站人數 INT DEFAULT 0,
+	PRIMARY KEY(id),
+	FOREIGN KEY(站點編號) REFERENCES stations(編號)
+	ON DELETE SET NULL
+	ON UPDATE CASCADE
+);
+
+
 SELECT * FROM stations;
+SELECT * FROM gate_count;
 
 SELECT COUNT(*) AS 筆數
 FROM stations;
+
+SELECT COUNT(*) AS 筆數
+FROM gate_count;
