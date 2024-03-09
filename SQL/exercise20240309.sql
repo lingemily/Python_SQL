@@ -27,11 +27,7 @@ CREATE TABLE IF NOT EXISTS gate_count(
 	ON UPDATE CASCADE
 );
 
-SELECT *
-FROM gate_count LEFT JOIN stations ON 站點編號=編號;
-
-SELECT 進站人數, SUM(進站人數) AS 總和
-FROM gate_count LEFT JOIN stations ON 站點編號=編號
-WHERE 日期 BETWEEN '2022-01-01' AND '2022-12-31'
+SELECT 進站人數, SUM() AS 總和
+FROM stations
 GROUP BY 進站人數
 ORDER BY 總和 DESC;
