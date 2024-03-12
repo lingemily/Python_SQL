@@ -1,33 +1,53 @@
-/* 全省各站點2022年進站總人數*/
-DROP TABLE IF EXISTS gate_count;
-DROP TABLE IF EXISTS stations;
+SELECT *
+FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
 
-CREATE TABLE IF NOT EXISTS stations(
-	編號 INT PRIMARY KEY,
-	名稱 VARCHAR(20) NOT NULL,
-	英文名稱 VARCHAR(50),
-	地名 VARCHAR(20),
-	英文地名 VARCHAR(50),
-	地址 VARCHAR(255),
-	英文地址 VARCHAR(255),
-	電話 VARCHAR(20),
-	gps VARCHAR(50),
-	youbike BOOL
-);
 
-CREATE TABLE IF NOT EXISTS gate_count(
-	id SERIAL,
-	日期 DATE NOT NULL,
-	站點編號 INT,
-	進站人數 INT DEFAULT 0,
-	出站人數 INT DEFAULT 0,
-	PRIMARY KEY(id),
-	FOREIGN KEY(站點編號) REFERENCES stations(編號)
-	ON DELETE SET NULL
-	ON UPDATE CASCADE
-);
+/*全省各站點2022年進站總人數*/
+SELECT DATE_PART('year',日期) AS 年份,名稱,SUM(進站人數) AS 進站人數
+FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
+WHERE 日期 BETWEEN '2022-01-01' AND '2022-12-31'
+GROUP BY 年份,名稱
+ORDER BY 進站人數 DESC
 
-SELECT 進站人數, SUM() AS 總和
-FROM stations
-GROUP BY 進站人數
-ORDER BY 總和 DESC;
+
+
+/*全省各站點2022年進站總人數大於5佰萬人的站點*/
+SELECT DATE_PART('year',日期) AS 年份,名稱,SUM(進站人數) AS 進站人數
+FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
+WHERE 日期 BETWEEN '2022-01-01' AND '2022-12-31'
+GROUP BY 年份,名稱
+HAVING SUM(進站人數) > 5000000
+ORDER BY 進站人數 DESC
+
+
+
+/*基隆火車站2020年,每月份進站人數*/
+SELECT DATE_TRUNC('month',日期) AS 月份,SUM(進站人數) AS 進站人數
+FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
+WHERE 名稱 = '基隆' AND 日期 BETWEEN '2020-01-01' AND '2020-12-31'
+GROUP BY 月份
+ORDER BY 月份, 進站人數 
+
+
+/*基隆火車站2020年,每月份進站人數,由多至少*/
+SELECT DATE_TRUNC('month',日期) AS 月份,SUM(進站人數) AS 進站人數
+FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
+WHERE 名稱 = '基隆' AND 日期 BETWEEN '2020-01-01' AND '2020-12-31'
+GROUP BY 月份
+ORDER BY 進站人數 DESC
+
+
+
+/*基隆火車站2020,2021,2022,每年進站人數*/
+SELECT DATE_PART('year',日期) AS 年份,SUM(進站人數) AS 進站人數
+FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
+WHERE 名稱 = '基隆' AND 日期 BETWEEN '2020-01-01' AND '2022-12-31'
+GROUP BY 年份
+ORDER BY 進站人數 DESC
+
+/*基隆火車站,臺北火車站2020,2021,2022,每年進站人數*/
+SELECT DATE_PART('year',日期) AS 年份,名稱,SUM(進站人數) AS 進站人數
+FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
+WHERE 名稱 IN ('基隆','臺北') AND 日期 BETWEEN '2020-01-01' AND '2022-12-31'
+GROUP BY 年份,名稱
+ORDER BY 年份,進站人數 DESC
