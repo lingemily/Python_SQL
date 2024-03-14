@@ -44,7 +44,7 @@ SELECT DATE_PART('year',日期) AS 年度,SUM(進站人數) AS 基隆火車站�
 FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
 WHERE 名稱 = '基隆' AND 日期 BETWEEN '2020-01-01' AND '2022-12-31'
 GROUP BY 年度
-ORDER BY 基隆火車站進站人數
+ORDER BY 年度, 基隆火車站進站人數
 
 
 
