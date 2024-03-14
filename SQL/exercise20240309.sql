@@ -38,12 +38,6 @@ GROUP BY 月份,名稱
 ORDER BY 進站人數 DESC
 
 
-/*基隆火車站2020年,每月份進站人數,由多至少*/
-SELECT DATE_TRUNC('month',日期) AS 月份,名稱,SUM(進站人數) AS 進站人數
-FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
-WHERE 名稱 = '基隆' AND 日期 BETWEEN '2020-01-01' AND '2020-12-31'
-GROUP BY 月份,名稱
-ORDER BY 進站人數 DESC
 
 
 
