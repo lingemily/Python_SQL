@@ -5,11 +5,11 @@
 SELECT *
 FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
 
-/*求出進站人數最大的*/
+/*求出進站人數最大的,顯示出最多人數的值*/
 SELECT MAX(進站人數)
 FROM gate_count
 
-/*求出最大進站人數*/
+/*求出最大進站人數可顯示進站人數最多一筆的明細*/
 SELECT *
 FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
 WHERE 進站人數 = 82586
