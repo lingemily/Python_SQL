@@ -13,7 +13,7 @@ FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
 WHERE 進站人數 = 82586
 
 
-/*SsubQuery應用,如where那段程式()內的*/
+/*subQuery應用,如where那段程式()內的*/
 SELECT *
 FROM gate_count LEFT JOIN stations ON 站點編號 = 編號
 WHERE 進站人數 = (
